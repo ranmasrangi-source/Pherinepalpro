@@ -1,0 +1,6 @@
+{
+  "name": "PheriNepal — Nepal Travel Companion & Platform Governance",
+  "description": "Your Complete Nepal Travel Companion. Before You Go, While You Explore, After You Return. Canonical 31-category service registry, 240-module master architecture, and 8 role-isolated dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
