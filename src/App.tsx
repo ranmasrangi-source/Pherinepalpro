@@ -39,11 +39,21 @@ import type {
   InventoryListing,
   LedgerJournalEntry,
   OfficialSourceRecord,
-  OwnerDecisionRecord,
   PartnerVerificationRecord,
   SupportIncidentRecord,
   VerifiedReviewRecord,
 } from './domain/store.ts';
+import type {
+  AssumptionItem,
+  DependencyItem,
+  LegalQuestionItem,
+  LifecycleJourneyMap,
+  OwnerDecisionFullRecord,
+  PersonaRecord,
+  Ph00FeatureAuditRecord,
+  PilotCandidateEvaluation,
+  RiskItem,
+} from './domain/ph00Governance.ts';
 
 interface BootstrapData {
   correlationId: string;
@@ -54,8 +64,12 @@ interface BootstrapData {
   counts: {
     categoriesCount: number;
     dashboardsCount: number;
+    lifecycleStagesCount: number;
     phasesCount: number;
     totalFeatureModulesCount: number;
+    ownerDecisionsCount: number;
+    legalQuestionsCount: number;
+    personasCount: number;
   };
   categories: ServiceCategory[];
   dashboards: DashboardDefinition[];
@@ -67,7 +81,18 @@ interface BootstrapData {
   officialSources: OfficialSourceRecord[];
   incidents: SupportIncidentRecord[];
   reviews: VerifiedReviewRecord[];
-  decisions: OwnerDecisionRecord[];
+  decisions: OwnerDecisionFullRecord[];
+  ph00Governance: {
+    featureAuditMatrix: Ph00FeatureAuditRecord[];
+    personas: PersonaRecord[];
+    journeyMaps: LifecycleJourneyMap[];
+    decisions: OwnerDecisionFullRecord[];
+    risks: RiskItem[];
+    dependencies: DependencyItem[];
+    assumptions: AssumptionItem[];
+    legalRegister: LegalQuestionItem[];
+    pilotFramework: PilotCandidateEvaluation[];
+  };
   auditEvents: AuditEvent[];
   travelerPrivacyConsent: {
     travelerId: string;
@@ -939,6 +964,14 @@ export default function App() {
                   <dl className="space-y-3 text-xs border-t border-slate-200 dark:border-slate-800 pt-3">
                     <div>
                       <dt className="font-semibold text-slate-700 dark:text-slate-300">
+                        Category Operational & Backup Owners (`PH00-F004`)
+                      </dt>
+                      <dd className="text-slate-600 dark:text-slate-400 font-mono mt-0.5">
+                        Primary: {selectedCategory.operationalOwnerRole} · Backup: {selectedCategory.backupOwnerRole}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-slate-700 dark:text-slate-300">
                         Inventory & Capacity Model (Appendix A)
                       </dt>
                       <dd className="text-slate-600 dark:text-slate-400 font-mono mt-0.5">
@@ -1305,26 +1338,35 @@ export default function App() {
 
                         <div className="space-y-2">
                           <h4 className="text-sm font-semibold">
-                            Owner Decisions Register (`DECISIONS.md` — Section 32)
+                            Master Register of All 26 Owner Decisions (`DECISIONS.md` — Section 32 · Zero Self-Approvals)
                           </h4>
-                          <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-md">
+                          <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-md max-h-80">
                             <table className="w-full text-left border-collapse text-xs">
                               <thead>
                                 <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
                                   <th className="py-2 px-3">ID</th>
-                                  <th className="py-2 px-3">Decision Topic</th>
+                                  <th className="py-2 px-3">Decision Question & Topic</th>
                                   <th className="py-2 px-3">Status</th>
-                                  <th className="py-2 px-3">Current Governance Policy</th>
+                                  <th className="py-2 px-3">Approver</th>
+                                  <th className="py-2 px-3">Safe Work Continuation Boundary</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                                 {data.decisions.map((d) => (
                                   <tr key={d.id}>
                                     <td className="py-2.5 px-3 font-mono font-semibold">{d.id}</td>
-                                    <td className="py-2.5 px-3 font-medium">{d.topic}</td>
-                                    <td className="py-2.5 px-3 font-mono">{d.status}</td>
+                                    <td className="py-2.5 px-3">
+                                      <div className="font-semibold">{d.topic}</div>
+                                      <div className="text-slate-500 mt-0.5">{d.question}</div>
+                                    </td>
+                                    <td className="py-2.5 px-3 font-mono font-semibold text-amber-700 dark:text-amber-400">
+                                      {d.status}
+                                    </td>
+                                    <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400">
+                                      {d.approver}
+                                    </td>
                                     <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300">
-                                      {d.finalDecision}
+                                      {d.safeContinuationWork}
                                     </td>
                                   </tr>
                                 ))}
@@ -1908,17 +1950,17 @@ export default function App() {
         )}
 
         {/* =====================================================================
-            VIEW 4: 18 DELIVERY PHASES & 240 FEATURE MODULE REGISTER (Section 24 & 27.2)
+            VIEW 4: PH00 GOVERNANCE AUDIT (PH00-F001..F012) & 240-MODULE REGISTER
            ===================================================================== */}
         {activeSection === 'phases' && (
-          <section className="space-y-6">
+          <section className="space-y-8">
             <div className="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 font-display">
-                  04. Master Delivery Plan: 18 Phases (PH00–PH17) & 240 Feature Modules
+                  04. PH00 Governance & Foundation Audit (`PH00-F001`–`PH00-F012`) & 240-Module Register
                 </h2>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                  Authoritative phase register (Section 24) and automated invariant test runner (Section 27.2).
+                  Active Phase Scope: <strong>PH00 ONLY</strong> (`PARTIAL` pending Owner sign-off per Rule #11). Phases `PH01`–`PH17` are strictly `NOT_STARTED`. All 26 Section 32 Owner Decisions are `PENDING` or `GATED`.
                 </p>
               </div>
               <button
@@ -1927,14 +1969,14 @@ export default function App() {
                 className="px-4 py-2 text-xs font-medium bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded-md flex items-center gap-2 whitespace-nowrap shrink-0"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${runningInvariants ? 'animate-spin' : ''}`} />
-                <span>Run Section 27.2 Concurrency & Ledger Verification Suite</span>
+                <span>Run Automated PH00 & Invariant Verification Suite</span>
               </button>
             </div>
 
             {invariantResults && (
               <div className="border border-emerald-300 dark:border-emerald-900 bg-white dark:bg-slate-900 rounded-lg p-5 space-y-3">
                 <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                  Live Verification Suite Output (Section 26 & 27.2 Evidence)
+                  Live Automated Verification Suite Output (INV-01 through INV-06)
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {invariantResults.map((res) => (
@@ -1955,40 +1997,250 @@ export default function App() {
               </div>
             )}
 
-            <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
-                  <thead>
-                    <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
-                      <th className="py-2.5 px-3 font-mono">Phase</th>
-                      <th className="py-2.5 px-3">Phase Scope & Title</th>
-                      <th className="py-2.5 px-3 font-mono text-right">Modules</th>
-                      <th className="py-2.5 px-3 font-mono">Feature ID Range</th>
-                      <th className="py-2.5 px-3 font-mono">Gate Status</th>
-                      <th className="py-2.5 px-3">Exit Evidence Summary</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                    {data.phases.map((ph) => (
-                      <tr key={ph.phaseId}>
-                        <td className="py-2.5 px-3 font-mono font-bold">{ph.phaseId}</td>
-                        <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">
-                          {ph.title}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono tabular-nums text-right font-semibold">
-                          {ph.moduleCount}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-slate-500">
-                          {ph.featureIds[0]} – {ph.featureIds[ph.featureIds.length - 1]}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono font-semibold">{ph.status}</td>
-                        <td className="py-2.5 px-3 text-slate-600 dark:text-slate-400">
-                          {ph.exitGateSummary}
-                        </td>
+            {/* PH00-F001 to PH00-F012 Feature Audit & Remediation Table */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 font-display">
+                  A. PH00 Feature-by-Feature Audit & Remediation Matrix (`PH00-F001` to `PH00-F012`)
+                </h3>
+                <span className="text-xs font-mono text-slate-500">
+                  12 / 12 PH00 Modules Remediated · Awaits Owner Sign-Off
+                </span>
+              </div>
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
+                        <th className="py-2.5 px-3 font-mono">Feature ID</th>
+                        <th className="py-2.5 px-3">Blueprint Title & Section</th>
+                        <th className="py-2.5 px-3 font-mono">Prior State</th>
+                        <th className="py-2.5 px-3 font-mono">Current Status</th>
+                        <th className="py-2.5 px-3">Remediation & Acceptance Evidence</th>
+                        <th className="py-2.5 px-3">Owner Gate Required</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                      {data.ph00Governance.featureAuditMatrix.map((item) => (
+                        <tr key={item.featureId}>
+                          <td className="py-2.5 px-3 font-mono font-bold whitespace-nowrap">{item.featureId}</td>
+                          <td className="py-2.5 px-3">
+                            <div className="font-semibold text-slate-900 dark:text-slate-100">{item.title}</div>
+                            <div className="text-slate-500 font-mono">{item.blueprintSection}</div>
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-red-700 dark:text-red-400">
+                            {item.preRemediationStatus}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono font-semibold text-amber-700 dark:text-amber-400">
+                            {item.postRemediationStatus}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300">
+                            <div>{item.gapRemediated}</div>
+                            <div className="font-mono text-slate-500 mt-0.5">Evidence: {item.evidenceFile}</div>
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400">
+                            {item.ownerApprovalRequired}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* PH00-F010: All 15 Legal, Licensing, Insurance & Tax Questions (Section 22) */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 font-display">
+                  B. Legal, Licensing, Insurance & Tax Question Register (`PH00-F010` — All 15 Section 22 Domains)
+                </h3>
+                <span className="text-xs font-mono text-slate-500">
+                  15 / 15 Domains · 100% PENDING_COUNSEL_OPINION (Zero Fabricated Legal Approvals)
+                </span>
+              </div>
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg overflow-hidden">
+                <div className="overflow-x-auto max-h-96">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
+                        <th className="py-2 px-3 font-mono">Legal ID</th>
+                        <th className="py-2 px-3">Regulatory Domain & Question</th>
+                        <th className="py-2 px-3">Authority / Counsel</th>
+                        <th className="py-2 px-3 font-mono">Written Response</th>
+                        <th className="py-2 px-3 font-mono">Gate</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                      {data.ph00Governance.legalRegister.map((leg) => (
+                        <tr key={leg.legalId}>
+                          <td className="py-2 px-3 font-mono font-bold">{leg.legalId}</td>
+                          <td className="py-2 px-3">
+                            <div className="font-semibold text-slate-900 dark:text-slate-100">{leg.domainTitle}</div>
+                            <div className="text-slate-600 dark:text-slate-400">{leg.question}</div>
+                            <div className="text-slate-500 font-mono mt-0.5">Scope: {leg.categoryScope}</div>
+                          </td>
+                          <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{leg.authorityOrCounsel}</td>
+                          <td className="py-2 px-3 font-mono text-amber-700 dark:text-amber-400">
+                            {leg.writtenResponse}
+                          </td>
+                          <td className="py-2 px-3 font-mono font-semibold text-red-700 dark:text-red-400">
+                            {leg.launchGateStatus}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* PH00-F002 (15 Personas) & PH00-F011 (Pilot Selection Framework) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg p-5 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                  <h3 className="text-sm font-bold font-display">
+                    C. 15 Traveler, Partner & Staff Personas (`PH00-F002` — Section 3)
+                  </h3>
+                  <span className="text-xs font-mono text-amber-700 dark:text-amber-400">
+                    Field Interviews: VALIDATION_PENDING
+                  </span>
+                </div>
+                <div className="overflow-y-auto max-h-80 divide-y divide-slate-200 dark:divide-slate-800 text-xs">
+                  {data.ph00Governance.personas.map((prs) => (
+                    <div key={prs.personaId} className="py-2.5 space-y-1">
+                      <div className="flex items-center justify-between font-mono">
+                        <span className="font-bold text-slate-900 dark:text-slate-100">
+                          {prs.personaId} · {prs.name} ({prs.nameNe})
+                        </span>
+                        <span className="text-slate-500">Dashboard: {prs.primaryDashboardId}</span>
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-300">{prs.workflowScope}</p>
+                      <div className="text-slate-500 font-mono">
+                        Protocol: {prs.validationProtocolRequired}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg p-5 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                  <h3 className="text-sm font-bold font-display">
+                    D. Pilot-Region & Category Selection Matrix (`PH00-F011` — Section 30.1)
+                  </h3>
+                  <span className="text-xs font-mono text-amber-700 dark:text-amber-400">
+                    Gated on DEC-001 (PENDING)
+                  </span>
+                </div>
+                <div className="overflow-y-auto max-h-80 divide-y divide-slate-200 dark:divide-slate-800 text-xs">
+                  {data.ph00Governance.pilotFramework.map((cand) => (
+                    <div key={cand.candidateId} className="py-2.5 space-y-1">
+                      <div className="flex items-center justify-between font-mono">
+                        <span className="font-bold text-slate-900 dark:text-slate-100">
+                          {cand.candidateId}: {cand.region}
+                        </span>
+                        <span className="font-semibold text-amber-700 dark:text-amber-400">
+                          {cand.disposition}
+                        </span>
+                      </div>
+                      <div className="font-mono text-slate-500">
+                        Categories: {cand.categoryKeys.join(', ')} · Gate: {cand.gateStatus}
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-300">
+                        {cand.rejectionOrSelectionRationale}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* PH00-F008: Separate Risk, Dependency & Assumption Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg p-4 space-y-2">
+                <div className="text-xs font-mono text-slate-500">PH00-F008 Part A</div>
+                <h4 className="text-sm font-bold">Risk Register ({data.ph00Governance.risks.length} Risks)</h4>
+                <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1 max-h-48 overflow-y-auto">
+                  {data.ph00Governance.risks.map((r) => (
+                    <div key={r.riskId} className="font-mono">
+                      <strong>{r.riskId}</strong> [{r.severity}]: {r.domain} ({r.status})
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg p-4 space-y-2">
+                <div className="text-xs font-mono text-slate-500">PH00-F008 Part B</div>
+                <h4 className="text-sm font-bold">Dependency Register ({data.ph00Governance.dependencies.length} Items)</h4>
+                <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1 max-h-48 overflow-y-auto">
+                  {data.ph00Governance.dependencies.map((d) => (
+                    <div key={d.dependencyId} className="font-mono">
+                      <strong>{d.dependencyId}</strong> [{d.status}]: {d.dependentPhase} — {d.providerOrAuthority}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg p-4 space-y-2">
+                <div className="text-xs font-mono text-slate-500">PH00-F008 Part C & PH00-F009</div>
+                <h4 className="text-sm font-bold">Assumption & Research Lead Register ({data.ph00Governance.assumptions.length} Items)</h4>
+                <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1 max-h-48 overflow-y-auto">
+                  {data.ph00Governance.assumptions.map((a) => (
+                    <div key={a.assumptionId} className="font-mono">
+                      <strong>{a.assumptionId}</strong> [{a.validationStatus}]: {a.category}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 18-Phase Master Delivery Plan & 240 Feature Modules */}
+            <div className="space-y-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 font-display">
+                E. Master Delivery Plan: 18 Phases (`PH00`–`PH17`) & All 240 Feature Modules (`PH00-F006`)
+              </h3>
+              <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60">
+                        <th className="py-2.5 px-3 font-mono">Phase</th>
+                        <th className="py-2.5 px-3">Phase Scope & Title</th>
+                        <th className="py-2.5 px-3 font-mono text-right">Modules</th>
+                        <th className="py-2.5 px-3 font-mono">Feature ID Range</th>
+                        <th className="py-2.5 px-3 font-mono">Official Status</th>
+                        <th className="py-2.5 px-3">Exit Gate & Phase Boundary Note</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                      {data.phases.map((ph) => (
+                        <tr key={ph.phaseId}>
+                          <td className="py-2.5 px-3 font-mono font-bold">{ph.phaseId}</td>
+                          <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">
+                            {ph.title}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono tabular-nums text-right font-semibold">
+                            {ph.moduleCount}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-slate-500">
+                            {ph.featureIds[0]} – {ph.featureIds[ph.featureIds.length - 1]}
+                          </td>
+                          <td
+                            className={`py-2.5 px-3 font-mono font-semibold ${
+                              ph.status === 'PARTIAL'
+                                ? 'text-amber-700 dark:text-amber-400'
+                                : 'text-slate-500 dark:text-slate-400'
+                            }`}
+                          >
+                            {ph.status}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-600 dark:text-slate-400">
+                            {ph.exitGateSummary}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </section>

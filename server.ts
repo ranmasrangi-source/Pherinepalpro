@@ -51,8 +51,12 @@ async function startServer() {
       counts: {
         categoriesCount: domainStore.categories.length,
         dashboardsCount: CANONICAL_DASHBOARDS.length,
+        lifecycleStagesCount: domainStore.ph00Governance.journeyMaps.length,
         phasesCount: MASTER_PHASE_REGISTER.length,
-        totalFeatureModulesCount: MASTER_PHASE_REGISTER.reduce((acc, p) => acc + p.moduleCount, 0)
+        totalFeatureModulesCount: MASTER_PHASE_REGISTER.reduce((acc, p) => acc + p.moduleCount, 0),
+        ownerDecisionsCount: domainStore.decisions.length,
+        legalQuestionsCount: domainStore.ph00Governance.legalRegister.length,
+        personasCount: domainStore.ph00Governance.personas.length
       },
       categories: domainStore.categories,
       dashboards: CANONICAL_DASHBOARDS,
@@ -65,6 +69,7 @@ async function startServer() {
       incidents: domainStore.incidents,
       reviews: domainStore.reviews,
       decisions: domainStore.decisions,
+      ph00Governance: domainStore.ph00Governance,
       auditEvents: domainStore.auditEvents.slice(0, 50),
       travelerPrivacyConsent: domainStore.travelerPrivacyConsent
     });
@@ -494,6 +499,24 @@ async function startServer() {
         name: 'Hard Gate Enforcement on SOS (#21) & Travel Wallet (#30) (Rules #6 & #7)',
         passed: highRiskGatesIntact,
         evidence: `SOS status=${sosCat?.status}, Travel Wallet status=${walletCat?.status}; zero false escrow or 24/7 dispatch claims.`
+      },
+      {
+        testId: 'INV-05',
+        name: 'PH00 Governance Integrity (26 Owner Decisions PENDING/GATED & 15 Legal Questions)',
+        passed:
+          domainStore.decisions.length === 26 &&
+          domainStore.decisions.every((d) => d.status === 'PENDING' || d.status === 'GATED') &&
+          domainStore.ph00Governance.legalRegister.length === 15 &&
+          domainStore.ph00Governance.personas.length === 15,
+        evidence: `Verified ${domainStore.decisions.length}/26 Owner decisions (100% PENDING/GATED, 0 self-approved), ${domainStore.ph00Governance.legalRegister.length}/15 legal domains, and ${domainStore.ph00Governance.personas.length}/15 personas.`
+      },
+      {
+        testId: 'INV-06',
+        name: 'PH00 Phase Boundary & Anti-Fabrication Gate (PH00=PARTIAL, PH01–PH17=NOT_STARTED)',
+        passed:
+          MASTER_PHASE_REGISTER[0].status === 'PARTIAL' &&
+          MASTER_PHASE_REGISTER.slice(1).every((p) => p.status === 'NOT_STARTED'),
+        evidence: `PH00 status=${MASTER_PHASE_REGISTER[0].status} (awaiting Owner sign-off); PH01–PH17 (${MASTER_PHASE_REGISTER.slice(1).length} phases) all strictly NOT_STARTED.`
       }
     ];
 

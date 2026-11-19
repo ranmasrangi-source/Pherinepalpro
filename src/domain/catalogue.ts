@@ -71,6 +71,8 @@ export interface ServiceCategory {
   transactional: boolean;
   status: CategoryStatus;
   owningPhase: string;
+  operationalOwnerRole: string;
+  backupOwnerRole: string;
   lifecycleStages: LifecycleStage[];
   inventoryModel: string;
   verificationRequirements: string[];
@@ -92,6 +94,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH07',
+    operationalOwnerRole: 'Stay Supply Lead',
+    backupOwnerRole: 'Verification Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'room/unit × date × occupancy × rate plan',
     verificationRequirements: ['Company Registration', 'PAN/VAT Certificate', 'DoT/Local Ward Operating Licence', 'Fire & Safety Declaration'],
@@ -109,6 +113,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH07',
+    operationalOwnerRole: 'Community Stay Lead',
+    backupOwnerRole: 'Partner Support Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'room/unit × date × occupancy × host meal plan',
     verificationRequirements: ['Homestay Operating Committee Registration', 'Host Citizenship/Identity', 'Ownership/Authority Declaration'],
@@ -126,6 +132,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Adventure Ops Lead',
+    backupOwnerRole: 'Safety & Compliance Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'session/departure × capacity × participant requirements',
     verificationRequirements: ['Adventure Operator Licence', 'Equipment Safety Inspection Record', 'Participant Liability & Rescue Insurance'],
@@ -143,6 +151,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Mountain & Trek Lead',
+    backupOwnerRole: 'Safety & Compliance Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'departure × group capacity × guide/operator/permit readiness',
     verificationRequirements: ['DoT Trekking Agency Licence', 'TAAN Membership', 'Guide & Porter High-Altitude Insurance', 'Tax Clearance'],
@@ -160,6 +170,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'RESTRICTED',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Expedition Safety Lead',
+    backupOwnerRole: 'Compliance Officer',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'expedition departure × climbing permit quota × IFMGA/NMA guide ratio',
     verificationRequirements: ['NMA / DoT Mountaineering Licence', 'High-Altitude Helicopter Rescue Insurance Proof', 'Liaison Officer & Garbage Deposit Compliance'],
@@ -178,6 +190,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Guide Relations Lead',
+    backupOwnerRole: 'Verification Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'person availability × date/time × qualification/category',
     verificationRequirements: ['NATHM / DoT Official Guide Licence', 'Valid First-Aid / High-Altitude Training', 'Personal Accident & Medical Insurance'],
@@ -195,6 +209,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Fleet & Mobility Lead',
+    backupOwnerRole: 'Operations Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'route/trip × vehicle/seat × schedule',
     verificationRequirements: ['Tourist Vehicle Bluebook (Green Plate)', 'Commercial Driver Licence', 'Passenger Comprehensive Insurance', 'Route Permit'],
@@ -212,6 +228,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Aviation Integrations Lead',
+    backupOwnerRole: 'Commercial Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'provider itinerary/seat data (no local inventory claim without live GDS/airline confirmation)',
     verificationRequirements: ['CAAN Air Operator Certificate / Approved GDS Aggregator Contract'],
@@ -230,6 +248,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'COMING_SOON',
     owningPhase: 'PH09',
+    operationalOwnerRole: 'Logistics Ops Lead',
+    backupOwnerRole: 'Partner Support Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'location × time slot × capacity × custody seal record',
     verificationRequirements: ['Facility CCTV & Custody Security Audit', 'Bailee Liability Policy'],
@@ -247,6 +267,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH11',
+    operationalOwnerRole: 'Geo & Directory Lead',
+    backupOwnerRole: 'Content Editor',
     lifecycleStages: ['DURING'],
     inventoryModel: 'source freshness & opening-hours confidence (not bookable inventory)',
     verificationRequirements: ['Official Directory Citation & Last-Verified Timestamp'],
@@ -264,6 +286,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'COMING_SOON',
     owningPhase: 'PH11',
+    operationalOwnerRole: 'Connectivity Product Lead',
+    backupOwnerRole: 'Legal & Integrations Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'provider plan × region/device compatibility × activation entitlement',
     verificationRequirements: ['NTA Compliance & Authorised Telecom Reseller Agreement'],
@@ -281,6 +305,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH11',
+    operationalOwnerRole: 'Content & Editorial Lead',
+    backupOwnerRole: 'Connectivity Product Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'non-transactional official telecom KYC & counter guide',
     verificationRequirements: ['NTC / Ncell Official Tariff & Passport KYC Source Verification'],
@@ -298,9 +324,11 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'RESTRICTED',
     owningPhase: 'PH11',
+    operationalOwnerRole: 'GIS & Maps Lead',
+    backupOwnerRole: 'Legal Counsel',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'licensed regional vector tile package & attribution record',
-    verificationRequirements: ['Map Provider Tile Caching & Offline Redistribution Licence (DEC-015)'],
+    verificationRequirements: ['Map Provider Tile Caching & Offline Redistribution Licence (DEC-017)'],
     highRiskTwoPersonApproval: false,
     bookingModesAllowed: [],
     publicRestrictionNotice: 'Licence-Gated: Offline map tile downloads remain restricted until map provider redistribution rights and attribution contracts are finalized.',
@@ -316,6 +344,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'COMING_SOON',
     owningPhase: 'PH10',
+    operationalOwnerRole: 'Marketplace Lead',
+    backupOwnerRole: 'Finance & Tax Lead',
     lifecycleStages: ['DURING', 'AFTER'],
     inventoryModel: 'SKU/variant × quantity × fulfilment location',
     verificationRequirements: ['Seller PAN/VAT', 'Authentic Craft / GI Origin Declaration', 'Return & Export Policy'],
@@ -333,6 +363,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH10',
+    operationalOwnerRole: 'Dining & Local Lead',
+    backupOwnerRole: 'Partner Support Lead',
     lifecycleStages: ['DURING'],
     inventoryModel: 'table/party size × date/time slot (partner confirmation required)',
     verificationRequirements: ['Food Hygiene & Municipal Business Registration', 'Allergen Disclosure Commitment'],
@@ -350,6 +382,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'AVAILABLE',
     owningPhase: 'PH10',
+    operationalOwnerRole: 'Cultural Experiences Lead',
+    backupOwnerRole: 'Community Stay Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'workshop/session × host capacity × language support',
     verificationRequirements: ['Host Identity Verification', 'Community Tourism Endorsement'],
@@ -367,6 +401,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH15',
+    operationalOwnerRole: 'Chief Editorial Lead',
+    backupOwnerRole: 'Content Reviewer',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'editorial article × verified locality citation × seasonal advisory',
     verificationRequirements: ['Editorial Fact-Check & Local Municipality Citation'],
@@ -384,6 +420,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH12',
+    operationalOwnerRole: 'AI Quality & RAG Lead',
+    backupOwnerRole: 'Safety & Compliance Lead',
     lifecycleStages: ['BEFORE', 'DURING', 'AFTER'],
     inventoryModel: 'grounded RAG response × official source citation × safety boundary check',
     verificationRequirements: ['Grounded Source Registry Citation', 'Zero Autonomous Money/Booking/Emergency Authority'],
@@ -402,6 +440,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH05',
+    operationalOwnerRole: 'Core Product Lead',
+    backupOwnerRole: 'Engineering Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'multi-service Trip ID workspace × day-by-day itinerary × budget & permit checklist',
     verificationRequirements: ['Server-Calculated Quote & Route Feasibility Disclaimer'],
@@ -419,6 +459,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH11',
+    operationalOwnerRole: 'Safety Information Lead',
+    backupOwnerRole: 'Operations Lead',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'official DHM/CAAN bulletin × publication timestamp × coverage disclaimer',
     verificationRequirements: ['Official DHM / CAAN Source Attribution & Freshness Timestamp'],
@@ -436,6 +478,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'RESTRICTED',
     owningPhase: 'PH13',
+    operationalOwnerRole: 'Head of Safety & Incident Ops',
+    backupOwnerRole: 'Founder / Legal Counsel',
     lifecycleStages: ['DURING'],
     inventoryModel: 'GATED — requires 24/7 staffed dispatch, drills & legal clearance',
     verificationRequirements: ['24/7 Staffed Response Center', 'Verified Responder Escalation Drills', 'Legal Duty-of-Care Sign-off'],
@@ -455,6 +499,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH15',
+    operationalOwnerRole: 'Heritage Content Lead',
+    backupOwnerRole: 'GIS & Maps Lead',
     lifecycleStages: ['DURING'],
     inventoryModel: 'heritage monument QR code × verified historical citation × audio/text guide',
     verificationRequirements: ['Department of Archaeology / Local Guthi Source Citation'],
@@ -472,6 +518,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH14',
+    operationalOwnerRole: 'Traveler Experience Lead',
+    backupOwnerRole: 'Privacy Lead',
     lifecycleStages: ['DURING', 'AFTER'],
     inventoryModel: 'traveler account × verified completed booking/check-in stamp',
     verificationRequirements: ['Completed Booking or Consent-Verified Check-In Proof'],
@@ -489,6 +537,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH14',
+    operationalOwnerRole: 'Privacy & Media Lead',
+    backupOwnerRole: 'Security Engineer',
     lifecycleStages: ['DURING', 'AFTER'],
     inventoryModel: 'private media album × explicit sharing consent × retention/deletion control',
     verificationRequirements: ['MIME/Malware Scan', 'Privacy Visibility Control (Private by Default)'],
@@ -506,6 +556,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH14',
+    operationalOwnerRole: 'Trust & Moderation Lead',
+    backupOwnerRole: 'Support Operations Lead',
     lifecycleStages: ['AFTER'],
     inventoryModel: 'completed booking ID × traveler review × moderation state × partner reply',
     verificationRequirements: ['Verified Completed Booking State (COMPLETED)', 'Anti-Abuse Moderation Check'],
@@ -523,6 +575,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'RESTRICTED',
     owningPhase: 'PH14',
+    operationalOwnerRole: 'Finance & Accounting Lead',
+    backupOwnerRole: 'CFO / Legal Counsel',
     lifecycleStages: ['AFTER'],
     inventoryModel: 'GATED — separate non-cash points ledger pending tax & accounting sign-off',
     verificationRequirements: ['Tax & Liability Accounting Policy Approval', 'Separate Non-Cash Ledger Isolation'],
@@ -542,6 +596,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH13',
+    operationalOwnerRole: 'Support Operations Lead',
+    backupOwnerRole: 'Trust & Moderation Lead',
     lifecycleStages: ['DURING', 'AFTER'],
     inventoryModel: 'incident report × moderation check × tourist police / embassy referral guide',
     verificationRequirements: ['Support Staff Moderation & PII Redaction'],
@@ -559,6 +615,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'RESTRICTED',
     owningPhase: 'PH15',
+    operationalOwnerRole: 'Trust, Safety & Privacy Lead',
+    backupOwnerRole: 'Legal Counsel',
     lifecycleStages: ['BEFORE', 'DURING'],
     inventoryModel: 'GATED — pending identity verification, minor protection, blocking & safety review',
     verificationRequirements: ['Identity Verification Policy', 'Harassment/Blocking Controls', 'Minor Protection & Privacy Audit'],
@@ -578,6 +636,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'COMING_SOON',
     owningPhase: 'PH15',
+    operationalOwnerRole: 'Community Product Lead',
+    backupOwnerRole: 'Trust & Moderation Lead',
     lifecycleStages: ['BEFORE', 'DURING', 'AFTER'],
     inventoryModel: 'shared trip workspace × member permission role × moderated community Q&A',
     verificationRequirements: ['Community Moderation Queue & Abuse Reporting'],
@@ -595,6 +655,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: true,
     status: 'RESTRICTED',
     owningPhase: 'PH08',
+    operationalOwnerRole: 'Head of Finance & Regulatory',
+    backupOwnerRole: 'Legal Counsel / Founder',
     lifecycleStages: ['BEFORE', 'DURING', 'AFTER'],
     inventoryModel: 'GATED — stored-value e-money prohibited without NRB licensing & legal approval',
     verificationRequirements: ['Nepal Rastra Bank (NRB) Stored-Value / PSP Legal Opinion', 'Audited Client Fund Segregation'],
@@ -614,6 +676,8 @@ export const CANONICAL_CATEGORIES: ServiceCategory[] = [
     transactional: false,
     status: 'INFORMATION_ONLY',
     owningPhase: 'PH13',
+    operationalOwnerRole: 'Support Operations Lead',
+    backupOwnerRole: 'Finance & Dispute Lead',
     lifecycleStages: ['BEFORE', 'DURING', 'AFTER'],
     inventoryModel: 'support ticket / dispute case × explicit operating hours (08:00–20:00 NPT) × SLA target',
     verificationRequirements: ['Explicit Published Operating Hours (No False 24/7 Promise)', 'Evidence Audit Trail'],
@@ -728,177 +792,502 @@ export const CANONICAL_DASHBOARDS: DashboardDefinition[] = [
   }
 ];
 
+export type PhaseStatus = 'PARTIAL' | 'NOT_STARTED' | 'PENDING' | 'GATED' | 'VERIFIED';
+
+export interface FeatureModuleItem {
+  id: string;
+  phaseId: string;
+  title: string;
+  status: PhaseStatus;
+}
+
 export interface PhaseSummary {
   phaseId: string;
   number: number;
   title: string;
   moduleCount: number;
   featureIds: string[];
-  status: 'VERIFIED' | 'SANDBOX_GATED' | 'STATUS_GATED' | 'PLANNED';
+  features: FeatureModuleItem[];
+  status: PhaseStatus;
   exitGateSummary: string;
 }
 
-export const MASTER_PHASE_REGISTER: PhaseSummary[] = [
+function buildPhaseFeatures(
+  phaseId: string,
+  titles: string[],
+  defaultStatus: PhaseStatus
+): FeatureModuleItem[] {
+  return titles.map((title, idx) => ({
+    id: `${phaseId}-F${String(idx + 1).padStart(3, '0')}`,
+    phaseId,
+    title,
+    status: defaultStatus
+  }));
+}
+
+const PH00_TITLES = [
+  'Product vision, positioning and measurable outcomes',
+  'Traveler and partner persona validation',
+  'Before/during/after journey maps',
+  '31-category taxonomy and category ownership',
+  'Product requirement and acceptance-criteria template',
+  'Feature register with unique IDs and phase ownership',
+  'Decision log and unresolved-decision workflow',
+  'Risk, dependency and assumption register',
+  'Content source and verification policy',
+  'Legal, licensing, insurance and tax question register',
+  'Pilot-region and pilot-category selection framework',
+  'AI coding-agent operating contract and evidence-report format'
+];
+
+const PH01_TITLES = [
+  'Brand strategy, positioning and voice',
+  'Logo system and asset rules',
+  'Semantic colour tokens and contrast',
+  'Typography with Nepali/Latin font testing',
+  'Spacing, grid, sizing, elevation and radius tokens',
+  'Iconography and illustration direction',
+  'Photography and media art direction',
+  'Reusable component library',
+  'Navigation, header, footer and responsive menu',
+  'Mobile/tablet/desktop layout system',
+  'Light/dark themes and contrast',
+  'Forms, validation, feedback and notification patterns',
+  'Tables, filters, search, cards and map patterns',
+  'Design tokens and developer handoff',
+  'Interaction, motion and micro-interaction guidelines',
+  'Accessibility-first design patterns, WCAG 2.2 AA target'
+];
+
+const PH02_TITLES = [
+  'Repository structure and package boundaries',
+  'Environment configuration and validation',
+  'Reproducible local development',
+  'PostgreSQL schema and migration framework',
+  'Constraints, indexes and transaction policy',
+  'Domain layer and service boundaries',
+  'API framework and versioning',
+  'Typed validation and shared schemas',
+  'Error model and correlation IDs',
+  'Logging, metrics and tracing baseline',
+  'File/object storage abstraction',
+  'Background job/event-processing foundation',
+  'CI, code quality and dependency scanning',
+  'Seed data, fixtures and test infrastructure'
+];
+
+const PH03_TITLES = [
+  'Traveler registration and account creation',
+  'Email/phone verification and OTP lifecycle',
+  'Secure login, logout and sessions',
+  'Password management and recovery',
+  'MFA for privileged accounts',
+  'Role-based access control',
+  'Organization and partner membership',
+  'Tenant and record-level isolation',
+  'Profile and traveler preferences',
+  'Consent, privacy and notification preferences',
+  'Export, correction, deletion and retention workflow',
+  'Session/device management and suspicious-login controls'
+];
+
+const PH04_TITLES = [
+  '31-category catalogue and metadata',
+  'Category/location availability status',
+  'Status history and audit trail',
+  'Category-specific information templates',
+  'Destination profiles and editorial pages',
+  'Province/district/municipality/locality taxonomy',
+  'Attraction and point-of-interest records',
+  'History, culture and local etiquette',
+  'Best-season and climate information',
+  'Permit, visa and entry information library',
+  'Official contact and public-service directory',
+  'Source registry, citations and verification workflow',
+  'Content freshness, expiry and review scheduling',
+  'English/Nepali editorial workflow',
+  'Media rights and moderation',
+  'SEO metadata, canonical URLs and structured data'
+];
+
+const PH05_TITLES = [
+  'Global category/destination search',
+  'Suggestions and typo tolerance',
+  'Filters and sorting',
+  'Map-based discovery',
+  'Distance and geospatial search',
+  'Nearby services discovery',
+  'Destination comparison',
+  'Attraction/activity discovery',
+  'Date/guest/requirement-aware search',
+  'Saved places and wishlists',
+  'Trip itinerary builder',
+  'Day-by-day schedule and timeline',
+  'Travel time, distance and route planning',
+  'Budget calculator and cost breakdown',
+  'Packing/preparation checklists',
+  'Permit/document planning checklist'
+];
+
+const PH06_TITLES = [
+  'Partner application and business profile',
+  'Identity and registration evidence',
+  'Licence, permit and insurance evidence',
+  'Document review and verification queue',
+  'Two-person approval and separation of duties',
+  'Category-specific partner readiness checklist',
+  'Partner agreement and terms acceptance',
+  'Listing creation and editing',
+  'Listing photos, media and ownership declaration',
+  'Staff invitations and roles',
+  'Partner availability and operating schedule',
+  'Suspension, restriction and reinstatement',
+  'Partner performance and compliance history',
+  'Assisted onboarding and audit history'
+];
+
+const PH07_TITLES = [
+  'Property/accommodation listing model',
+  'Room/unit and occupancy model',
+  'Rate plans, taxes, fees and price breakdown',
+  'Availability calendar and inventory rules',
+  'Minimum/maximum stay and booking windows',
+  'Search-to-listing availability validation',
+  'Expiring temporary inventory holds',
+  'Instant Booking workflow',
+  'Approval Booking workflow',
+  'Booking state machine and transition policy',
+  'Confirmation and traveler notifications',
+  'Check-in/check-out and service completion',
+  'Modification and rescheduling',
+  'Cancellation, no-show and partial fulfilment',
+  'Multi-service Trip ID with independent booking records',
+  'Booking history, vouchers and receipts'
+];
+
+const PH08_TITLES = [
+  'Payment provider adapter framework',
+  'Payment intent and checkout session',
+  'Payment status state machine',
+  'Signed, idempotent webhook processing',
+  'Double-entry financial ledger',
+  'Booking-to-payment allocation',
+  'Refund calculation and execution',
+  'Partial refund and cancellation fee rules',
+  'Commission calculation and disclosure',
+  'Partner payout and approval',
+  'Reconciliation and settlement reporting',
+  'Dispute/chargeback evidence workflow',
+  'Tax, invoice and receipt records',
+  'Finance dashboard and financial audit log'
+];
+
+const PH09_TITLES = [
+  'Adventure activity catalogue/detail',
+  'Trek route and itinerary catalogue',
+  'Trek package and departure dates',
+  'Peak-climbing product and expedition details',
+  'Guide/porter profile and qualifications',
+  'Guide availability and assignment',
+  'Operator/agency profile',
+  'Group size and capacity',
+  'Equipment and inclusion/exclusion details',
+  'Permit/restricted-area checklist integration',
+  'Safety briefing and risk acknowledgement',
+  'Vehicle, fleet and driver profiles',
+  'Transport routes, schedules and seat capacity',
+  'Airport transfer and private hire booking',
+  'Flight search/information provider integration',
+  'Luggage storage, transfer and tracking workflow'
+];
+
+const PH10_TITLES = [
+  'Restaurant profiles and menus',
+  'Table reservation and party-size rules',
+  'Reservation confirmation and cancellation',
+  'Food preferences and allergen disclosure',
+  'Local experience catalogue',
+  'Community tourism and host experiences',
+  'Event, workshop and festival listings',
+  'Experience schedule, capacity and booking',
+  'Shopping seller onboarding',
+  'Product catalogue, variants and inventory',
+  'Shopping cart and checkout',
+  'Order fulfilment, delivery and tracking',
+  'Returns, refunds and seller disputes',
+  'Local partner settlement and payout reporting'
+];
+
+const PH11_TITLES = [
+  'My Trip live trip dashboard',
+  'Trip timeline and itinerary updates',
+  'GPS sharing with explicit consent',
+  'Route navigation and saved routes',
+  'Licensed offline map downloads',
+  'Offline itinerary and vouchers',
+  'Offline emergency information pack',
+  'Connectivity and SIM information',
+  'eSIM catalogue and purchase flow',
+  'Translation and phrase assistance',
+  'Weather and official alert feed',
+  'Travel disruption and route closure alerts',
+  'Nearby hospital/pharmacy/ATM/bank/fuel discovery',
+  'Sync queue and conflict-safe offline synchronization'
+];
+
+const PH12_TITLES = [
+  'AI travel assistant',
+  'Grounded destination Q&A',
+  'Personalized itinerary generation',
+  'Trip plan refinement and constraint checks',
+  'Budget-aware recommendations',
+  'Weather/context-aware trusted-source suggestions',
+  'Multilingual conversational assistance',
+  'AI-assisted content drafting for human review',
+  'Recommendation ranking and explanation',
+  'Preference and personalization controls',
+  'AI evaluation, feedback and quality dashboard',
+  'AI safety, abuse, cost and provider fallback controls'
+];
+
+const PH13_TITLES = [
+  'Safety information hub',
+  'Verified emergency contact directory',
+  'SOS interface and activation policy',
+  'Incident reporting and case creation',
+  'Severity classification and triage',
+  'Escalation and responder assignment',
+  'Emergency contact notification with consent',
+  'Incident timeline and status updates',
+  'Traveler support center and help articles',
+  'Support ticket/live chat where staffed',
+  'Complaint and dispute intake',
+  'Lost-document/property assistance',
+  'Fraud/scam reporting and abuse controls',
+  'Post-incident follow-up and audit'
+];
+
+const PH14_TITLES = [
+  'Trip completion and post-trip summary',
+  'Actual versus estimated expenditure',
+  'Booking/payment/receipt/refund history',
+  'Verified review invitation and submission',
+  'Review moderation and appeal',
+  'Partner reply and service recovery',
+  'Digital travel passport and stamps',
+  'Private travel memories/media album',
+  'Shareable trip story with privacy controls',
+  'Rewards and loyalty rules',
+  'Separate rewards ledger and redemption',
+  'Personalized repeat-trip recommendations'
+];
+
+const PH15_TITLES = [
+  'Group trip creation and invitations',
+  'Shared itinerary and collaborative editing',
+  'Group member roles and permissions',
+  'Group expense splitting and settlement records',
+  'Travel community posts and questions',
+  'Community moderation and reporting',
+  'QR Scan Nepal information experience',
+  'Hidden Nepal editorial discovery',
+  'Companion discovery and matching',
+  'Companion safety checks, blocking and reporting',
+  'Sustainable/responsible travel guidance',
+  'Accessibility and inclusive-travel preference discovery'
+];
+
+const PH16_TITLES = [
+  'Android application using stable API',
+  'iOS application using stable API',
+  'Push notification integration',
+  'Deep links and universal links',
+  'Partner/provider integration hub',
+  'Public/partner API governance and webhooks',
+  'Business intelligence and operations dashboards',
+  'Multi-currency display and exchange-rate source',
+  'Corporate/group travel account support',
+  'New destination and international-market configuration'
+];
+
+const PH17_TITLES = [
+  'Production deployment and environment promotion',
+  'Security assessment and penetration testing',
+  'Performance, load, stress and soak testing',
+  'Backup, disaster recovery and restore drills',
+  'Monitoring, alerting, SLOs and incident response',
+  'Controlled launch, rollback and continuous improvement'
+];
+
+const ALL_PHASE_DEFINITIONS: {
+  phaseId: string;
+  number: number;
+  title: string;
+  titles: string[];
+  status: PhaseStatus;
+  exitGateSummary: string;
+}[] = [
   {
     phaseId: 'PH00',
     number: 0,
     title: 'Product discovery, governance and technical foundation',
-    moduleCount: 12,
-    featureIds: Array.from({ length: 12 }, (_, i) => `PH00-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: '31 categories, 8 dashboards, 240 feature IDs, DECISIONS.md, RISK_REGISTER.md, and Official Source Registry established.'
+    titles: PH00_TITLES,
+    status: 'PARTIAL',
+    exitGateSummary: 'PH00-F001..F012 artefacts, 31 categories, 8 dashboards, 240 feature IDs, 26 decisions (PENDING/GATED), RSK/DEP/ASM registers, 15 legal gates, and AI contract implemented; awaits Owner sign-off (Rule #11).'
   },
   {
     phaseId: 'PH01',
     number: 1,
     title: 'Premium brand, UI/UX and design system',
-    moduleCount: 16,
-    featureIds: Array.from({ length: 16 }, (_, i) => `PH01-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Bilingual English/Nepali typography, 60-30-10 color tokens, Light/Dark mode, WCAG 2.2 AA contrast, and zero-pill discipline.'
+    titles: PH01_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00 Owner exit approval and DEC-004 sign-off.'
   },
   {
     phaseId: 'PH02',
     number: 2,
     title: 'Platform foundation, database and developer experience',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH02-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Modular domain services, /api/v1 REST contracts, correlation IDs, structured error envelope, and append-only audit trail.'
+    titles: PH02_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00 exit approval and managed PostgreSQL provisioning (DEP-001, DEC-013).'
   },
   {
     phaseId: 'PH03',
     number: 3,
     title: 'Identity, accounts, roles and consent',
-    moduleCount: 12,
-    featureIds: Array.from({ length: 12 }, (_, i) => `PH03-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'RBAC permission enforcement, MFA verification on privileged roles, and granular traveler privacy/location consent.'
+    titles: PH03_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00–PH02 completion and DEC-016.'
   },
   {
     phaseId: 'PH04',
     number: 4,
     title: 'Catalogue, destination content and information intelligence',
-    moduleCount: 16,
-    featureIds: Array.from({ length: 16 }, (_, i) => `PH04-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Canonical 31-category state machine, province/district taxonomy, official permit/visa library, and source freshness tracking.'
+    titles: PH04_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00–PH03 completion and DEC-003.'
   },
   {
     phaseId: 'PH05',
     number: 5,
     title: 'Search, maps, discovery and trip planning',
-    moduleCount: 16,
-    featureIds: Array.from({ length: 16 }, (_, i) => `PH05-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Global category/destination search, multi-service Trip ID planner, budget breakdown, and permit checklist.'
+    titles: PH05_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00–PH04 completion and map licence (DEC-017).'
   },
   {
     phaseId: 'PH06',
     number: 6,
     title: 'Partner onboarding, verification and supply',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH06-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Category-specific verification evidence, expiry checks, and two-person separation-of-duties approval.'
+    titles: PH06_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00–PH05 completion and DEC-024.'
   },
   {
     phaseId: 'PH07',
     number: 7,
     title: 'Stay inventory and booking engine',
-    moduleCount: 16,
-    featureIds: Array.from({ length: 16 }, (_, i) => `PH07-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: '12-point Mandatory Booking Gate, separate Booking/Inventory/Payment/Payout states, atomic holds, and concurrency race protection.'
+    titles: PH07_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Blocked on PH00–PH06 completion and DEC-010, DEC-011.'
   },
   {
     phaseId: 'PH08',
     number: 8,
     title: 'Payments, ledger, refunds and financial operations',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH08-F${String(i + 1).padStart(3, '0')}`),
-    status: 'SANDBOX_GATED',
-    exitGateSummary: 'Double-entry balanced journal engine, immutable quote snapshots, and refund policy engine; live merchant money GATED pending DEC-008.'
+    titles: PH08_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-008, DEC-009, DEC-012, LEG-008, LEG-009.'
   },
   {
     phaseId: 'PH09',
     number: 9,
     title: 'Adventure, trekking, guides and transport',
-    moduleCount: 16,
-    featureIds: Array.from({ length: 16 }, (_, i) => `PH09-F${String(i + 1).padStart(3, '0')}`),
-    status: 'STATUS_GATED',
-    exitGateSummary: 'Trek departures, licensed NATHM guide profiles, green-plate transport routes, and restricted peak-climbing gate.'
+    titles: PH09_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on LEG-003, LEG-004 and category readiness.'
   },
   {
     phaseId: 'PH10',
     number: 10,
     title: 'Restaurants, local experiences, shopping and luggage',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH10-F${String(i + 1).padStart(3, '0')}`),
-    status: 'STATUS_GATED',
-    exitGateSummary: 'Restaurant approval reservations and community host experiences active; shopping and luggage status-gated.'
+    titles: PH10_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on LEG-006 and category readiness.'
   },
   {
     phaseId: 'PH11',
     number: 11,
     title: 'During-trip tools, connectivity, offline and translation',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH11-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'During-trip timeline, opt-in revocable GPS consent, Nepali phrase assistance, DHM weather alerts, and nearby essential services.'
+    titles: PH11_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on offline map and eSIM provider contracts (DEP-006, DEP-007).'
   },
   {
     phaseId: 'PH12',
     number: 12,
     title: 'AI travel intelligence and personalization',
-    moduleCount: 12,
-    featureIds: Array.from({ length: 12 }, (_, i) => `PH12-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Grounded destination Q&A with Official Source Registry citations and strict non-transactional safety guardrails.'
+    titles: PH12_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-018 and evaluation dataset.'
   },
   {
     phaseId: 'PH13',
     number: 13,
     title: 'Safety, emergency, incidents and support',
-    moduleCount: 14,
-    featureIds: Array.from({ length: 14 }, (_, i) => `PH13-F${String(i + 1).padStart(3, '0')}`),
-    status: 'SANDBOX_GATED',
-    exitGateSummary: 'Public emergency contacts, explicit support hours (08:00–20:00 NPT), incident triage; SOS button hard-gated per Rule #7.'
+    titles: PH13_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-007, DEC-023 (SOS hard-gated until 24/7 staffed drills).'
   },
   {
     phaseId: 'PH14',
     number: 14,
     title: 'After-trip, reviews, memories, passport and rewards',
-    moduleCount: 12,
-    featureIds: Array.from({ length: 12 }, (_, i) => `PH14-F${String(i + 1).padStart(3, '0')}`),
-    status: 'VERIFIED',
-    exitGateSummary: 'Actual vs estimated spend, booking-verified reviews, Digital Travel Passport stamps; Rewards GATED pending accounting sign-off.'
+    titles: PH14_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-019, DEC-026 (Rewards gated on accounting sign-off).'
   },
   {
     phaseId: 'PH15',
     number: 15,
     title: 'Group travel, community and advanced features',
-    moduleCount: 12,
-    featureIds: Array.from({ length: 12 }, (_, i) => `PH15-F${String(i + 1).padStart(3, '0')}`),
-    status: 'STATUS_GATED',
-    exitGateSummary: 'Hidden Nepal editorial and QR Scan Nepal discovery active; Travel Companion Matching GATED pending safety audit.'
+    titles: PH15_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-022 (Companion matching gated on safety audit).'
   },
   {
     phaseId: 'PH16',
     number: 16,
     title: 'Mobile apps, integrations, analytics and expansion',
-    moduleCount: 10,
-    featureIds: Array.from({ length: 10 }, (_, i) => `PH16-F${String(i + 1).padStart(3, '0')}`),
-    status: 'PLANNED',
-    exitGateSummary: 'Versioned /api/v1 OpenAPI-compatible contracts prepared for native Android/iOS clients.'
+    titles: PH16_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on DEC-021 and stable /api/v1 governance.'
   },
   {
     phaseId: 'PH17',
     number: 17,
     title: 'Production hardening, launch and continuous operations',
-    moduleCount: 6,
-    featureIds: Array.from({ length: 6 }, (_, i) => `PH17-F${String(i + 1).padStart(3, '0')}`),
-    status: 'PLANNED',
-    exitGateSummary: 'Automated 12-point gate, concurrency race, and double-entry ledger balance verification suite.'
+    titles: PH17_TITLES,
+    status: 'NOT_STARTED',
+    exitGateSummary: 'Not started. Gated on all upstream phases, penetration testing, and DR drills.'
   }
 ];
+
+export const MASTER_PHASE_REGISTER: PhaseSummary[] = ALL_PHASE_DEFINITIONS.map((def) => {
+  const features = buildPhaseFeatures(def.phaseId, def.titles, def.status);
+  if (def.phaseId === 'PH00') {
+    // Set PH00-F010 to GATED and PH00-F011 to PENDING to match exact audit matrix
+    features[9].status = 'GATED';
+    features[10].status = 'PENDING';
+  }
+  return {
+    phaseId: def.phaseId,
+    number: def.number,
+    title: def.title,
+    moduleCount: def.titles.length,
+    featureIds: features.map((f) => f.id),
+    features,
+    status: def.status,
+    exitGateSummary: def.exitGateSummary
+  };
+});

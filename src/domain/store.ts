@@ -15,6 +15,18 @@ import {
   PayoutState,
   ServiceCategory,
 } from './catalogue.ts';
+import {
+  OwnerDecisionFullRecord,
+  PH00_ALL_26_DECISIONS,
+  PH00_ASSUMPTIONS,
+  PH00_DEPENDENCIES,
+  PH00_FEATURE_AUDIT_MATRIX,
+  PH00_LEGAL_REGISTER,
+  PH00_LIFECYCLE_JOURNEY_MAPS,
+  PH00_PERSONAS,
+  PH00_PILOT_FRAMEWORK,
+  PH00_RISKS,
+} from './ph00Governance.ts';
 
 export interface PartnerVerificationRecord {
   partnerId: string;
@@ -555,52 +567,19 @@ class PheriNepalDomainStore {
     }
   ];
 
-  public decisions: OwnerDecisionRecord[] = [
-    {
-      id: 'DEC-001',
-      topic: 'Pilot Region & First Live Category',
-      options: 'A) Kathmandu/Pokhara stays & Khumbu verified treks | B) Nationwide all categories',
-      impact: 'Determines initial partner verification queue and support staffing.',
-      status: 'PENDING',
-      owner: 'Product Owner',
-      approver: 'Founder',
-      dueDate: 'Phase 00 Exit',
-      finalDecision: 'Sandbox pilot active for verified stays, treks, guides, transport, restaurants, and local experiences; high-risk/unlicensed categories remain GATED/RESTRICTED.'
-    },
-    {
-      id: 'DEC-002',
-      topic: 'Final Eight Dashboard Labels & Role Mapping',
-      options: 'A) Blueprint Section 6 8-Dashboard Architecture | B) Consolidated 4-Dashboard layout',
-      impact: 'Governs RBAC permission matrix and MFA enforcement.',
-      status: 'RECOMMENDED',
-      owner: 'Product Owner',
-      approver: 'Product Owner',
-      dueDate: 'Phase 00 Exit',
-      finalDecision: 'Implemented all 8 dashboards per Section 6 with MFA enforcement on Admin, Verification, and Finance.'
-    },
-    {
-      id: 'DEC-007',
-      topic: 'Support Hours & SOS Activation Gate',
-      options: 'A) Explicit 08:00–20:00 NPT support hours; SOS hard-GATED | B) 24/7 emergency dispatch',
-      impact: 'Duty of care and Rule #7 compliance.',
-      status: 'GATED',
-      owner: 'Operations & Safety Lead',
-      approver: 'Product Owner',
-      dueDate: 'Before Phase 13',
-      finalDecision: 'SOS (#21) hard-locked to RESTRICTED/GATED. No 24/7 emergency dispatch promise displayed anywhere.'
-    },
-    {
-      id: 'DEC-008',
-      topic: 'Payment Settlement & Prohibition of False Escrow Claims',
-      options: 'A) Separate Booking/Inventory/Payment/Payout states + Double-Entry Ledger (No Escrow Claim) | B) Licensed Bank Escrow',
-      impact: 'Financial integrity (Rule #5 & Rule #6).',
-      status: 'GATED',
-      owner: 'Finance & Legal Counsel',
-      approver: 'Founder',
-      dueDate: 'Before Phase 08 Live Money',
-      finalDecision: 'Payments are never described as escrow. Server enforces double-entry journal balance (Debits == Credits) in integer minor units (paisa).'
-    }
-  ];
+  public decisions: OwnerDecisionFullRecord[] = structuredClone(PH00_ALL_26_DECISIONS);
+
+  public ph00Governance = {
+    featureAuditMatrix: PH00_FEATURE_AUDIT_MATRIX,
+    personas: PH00_PERSONAS,
+    journeyMaps: PH00_LIFECYCLE_JOURNEY_MAPS,
+    decisions: PH00_ALL_26_DECISIONS,
+    risks: PH00_RISKS,
+    dependencies: PH00_DEPENDENCIES,
+    assumptions: PH00_ASSUMPTIONS,
+    legalRegister: PH00_LEGAL_REGISTER,
+    pilotFramework: PH00_PILOT_FRAMEWORK,
+  };
 
   public travelerPrivacyConsent = {
     travelerId: 'TRV-001',
