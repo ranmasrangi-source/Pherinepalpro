@@ -5,6 +5,24 @@
  * remain strictly PENDING or GATED.
  */
 
+import { CANONICAL_CATEGORIES, LifecycleStage } from './catalogue';
+import { ServerRole } from '../db/database';
+
+export type VerificationStatus =
+  | 'VERIFIED'
+  | 'NOT_VERIFIED'
+  | 'PENDING'
+  | 'GATED'
+  | 'BLOCKED';
+
+export interface VisionOutcomeMetric {
+  outcomeId: string;
+  title: string;
+  targetKpi: string;
+  measurementMethod: string;
+  currentBaselineStatus: VerificationStatus;
+}
+
 export interface Ph00FeatureAuditRecord {
   featureId: string;
   title: string;
@@ -23,6 +41,10 @@ export interface PersonaRecord {
   name: string;
   nameNe: string;
   primaryDashboardId: string;
+  allowedDashboardIds: string[];
+  lifecycleStages: LifecycleStage[];
+  primaryCategoryKeys: string[];
+  serverRole: ServerRole;
   workflowScope: string;
   empiricalInterviewStatus: 'VALIDATION_PENDING';
   validationProtocolRequired: string;
@@ -1046,8 +1068,8 @@ export const PH00_DEPENDENCIES: DependencyItem[] = [
     description: 'Provisioned PostgreSQL database instance (Cloud SQL or equivalent) with migration & backup access (DEC-013, DEC-014).',
     providerOrAuthority: 'Cloud Host / GCP Project Owner',
     status: 'GATED',
-    impactIfUnresolved: 'Real multi-instance SQL persistence and migration tests (PH02-F004) remain blocked.',
-    safeFallback: 'Modular monolith runs transactional in-memory domain store (src/domain/store.ts) with clean adapter boundaries.'
+    impactIfUnresolved: 'External managed PostgreSQL multi-instance deployment and PITR drills (PH02-F004) remain blocked until GCP/Cloud SQL project provisioning is authorized.',
+    safeFallback: 'Modular monolith runs persistent relational SQLite (node:sqlite DatabaseSync at data/pherinepal.sqlite) with WAL, FOREIGN KEYS, CHECK/UNIQUE constraints, versioned migrations, and BEGIN IMMEDIATE transactions.'
   },
   {
     dependencyId: 'DEP-002',

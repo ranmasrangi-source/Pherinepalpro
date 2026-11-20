@@ -2,7 +2,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
+import {fileURLToPath} from 'url';
 import {defineConfig} from 'vite';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig(() => {
   return {
@@ -15,10 +19,7 @@ export default defineConfig(() => {
       {
         name: 'copy-unbundled-src-assets',
         apply: 'build',
-        closeBundle(error?: Error): void {
-          if (error) {
-            return;
-          }
+        closeBundle(): void {
           const distDir = path.resolve(__dirname, 'dist');
           const srcAssets = path.resolve(__dirname, 'src/assets');
           const distAssets = path.resolve(distDir, 'src/assets');

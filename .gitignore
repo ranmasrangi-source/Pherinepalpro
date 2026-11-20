@@ -6,3 +6,13 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local SQLite database and temporary verification files
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+data/*.db
+tmp/*.sqlite*
+public/pherinepal-ph00-remediated.zip
+public/PHERINEPAL-PH00-COMPLETE-AUDIT-AND-REMEDIATION-REPORT.*
+public/PH00_REMEDIATION_EXECUTION_REPORT.md
